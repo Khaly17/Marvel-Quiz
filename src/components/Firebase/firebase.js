@@ -1,5 +1,5 @@
 import app from 'firebase/compat/app'
-import 'firebase/auth'
+import 'firebase/compat/auth'
 
 const config = {
     apiKey: "AIzaSyCPUFWwO-tH_5S5iJ4YfvEqj9aenH_QNoU",
@@ -16,17 +16,15 @@ class Firebase{
         this.auth = app.auth()
     }
 
+
     //Inscription
-    signupUser = (email, password) =>
-        this.auth.createUserWithEmailAndPassword(email, password)
+    signupUser = (email, password) => this.auth.createUserWithEmailAndPassword(email, password)
 
     //Connexion
-    loginUser = (email, password) =>
-        this.auth.signInWithEmailAndPassword(email, password)
+    loginUser = (email, password) => this.auth.signInWithEmailAndPassword(email, password)
 
     //Deconnexion
-    signoutUser = () =>
-        this.auth.signOut()
+    signoutUser = () => this.auth.signOut()
 }
 
 export default Firebase
