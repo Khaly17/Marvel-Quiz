@@ -1,7 +1,11 @@
 import React, {Component} from "react";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { QuizMarvel} from "../quizMarvel";
 import Levels from "../Levels";
 import ProgressBar from "../Progressbar";
+
+toast.configure()
 
 class Quiz extends Component{
 
@@ -15,7 +19,8 @@ class Quiz extends Component{
         idQuestion: 0,
         btnDisabled: true,
         userAnswer: null,
-        score: 0
+        score: 0,
+        showWelcomeMsg: false
     }
 
     storedDataRef = React.createRef()
@@ -39,6 +44,25 @@ class Quiz extends Component{
         }
     }
 
+    showWelcomeMsg = pseudo => {
+        if(!this.state.showWelcomeMsg){
+
+            this.setState({
+                showWelcomeMsg: true
+            })
+
+            toast.warn(`Bienvenue ${pseudo}, et bonne change!`, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
+        }
+    }
+
     componentDidMount() {
         this.loadQuestions(this.state.levelName[this.state.quizLevel])
     }
@@ -58,6 +82,27 @@ class Quiz extends Component{
             this.setState(prevState =>({
                 score: prevState.score +1
             }))
+
+            toast.success('Bravo +1', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        else{
+            toast.error('Raté 0', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
 
     }
@@ -79,6 +124,10 @@ class Quiz extends Component{
                 btnDisabled: true
             })
         }
+
+        if(this.props.userData.pseudo){
+           this.showWelcomeMsg(this.props.userData.pseudo)
+        }
     }
 
     submitAnswer = selectedAnswer => {
@@ -91,16 +140,16 @@ class Quiz extends Component{
 
     render() {
 
-       const { pseudo } = this.props.userData
 
        const displayOptions = this.state.options.map((option, index) => {
             return(
                 <p key={ index }
                    className={`answerOptions ${this.state.userAnswer === option ? "selected" : null}`}
-                       //" selected"
+
                    onClick={() => this.submitAnswer(option)}
                 >
                     { option }
+
 
                 </p>
             )
