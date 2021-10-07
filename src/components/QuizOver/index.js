@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {GiTrophyCup} from "react-icons/gi";
 import {HiBadgeCheck} from "react-icons/hi";
+import Loader from "../Loader";
 
 
 const QuizOver = React.forwardRef(
@@ -102,10 +103,10 @@ const QuizOver = React.forwardRef(
             (
                 <tr>
                     <td colSpan="3">
-                        <div className="loader"></div>
-                        <p style={{textAlign: 'center', color: 'red', }}>
-                            Pas de réponse!
-                        </p>
+                     <Loader
+                         loadingMsg={'Pas de Réponse'}
+                         styling={{textAlign: 'center', color: 'red'}}
+                     />
                     </td>
                 </tr>
             )
