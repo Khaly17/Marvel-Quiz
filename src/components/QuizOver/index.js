@@ -9,7 +9,8 @@ const QuizOver = React.forwardRef(
             score,
             maxQuestions,
             quizLevel,
-            percent
+            percent,
+            loadLevelQuestions,
         } = props
 
         const [asked, setAsked] = useState([])
@@ -18,6 +19,10 @@ const QuizOver = React.forwardRef(
         },[ref])
 
         const averageGrade = maxQuestions / 2
+
+        if(score < averageGrade){
+            setTimeout(()=>loadLevelQuestions(quizLevel),3000)
+        }
 
         const decision = score >= averageGrade ? (
             <>
@@ -28,7 +33,12 @@ const QuizOver = React.forwardRef(
                             <>
 
                                 <p className="successMsg">Bravo, passez au niveau suivant!</p>
-                                <button className="btnResult success">Niveau Suivant</button>
+                                <button
+                                    className="btnResult success"
+                                    onClick={()=>loadLevelQuestions(quizLevel)}
+                                >
+                                    Niveau Suivant
+                                </button>
 
                             </>
                         )
@@ -36,7 +46,12 @@ const QuizOver = React.forwardRef(
                         (
                              <>
                                  <p className="successMsg">Bravo, vous etes un expert!</p>
-                                 <button className="btnResult gameOver">Niveau Suivant</button>
+                                 <button
+                                     className="btnResult gameOver"
+                                     onClick={()=>loadLevelQuestions(0)}
+                                 >
+                                    Accueil
+                                 </button>
 
                              </>
                         )
@@ -79,6 +94,7 @@ const QuizOver = React.forwardRef(
             (
                 <tr>
                     <td colSpan="3">
+                        <div className="loader"></div>
                         <p style={{textAlign: 'center', color: 'red', }}>
                             Pas de réponse!
                         </p>

@@ -9,23 +9,29 @@ import QuizOver from "../QuizOver";
 toast.configure()
 
 class Quiz extends Component{
+    constructor(props) {
+        super(props);
 
-    state ={
-        levelName: ["debutant", "confirme", "expert"],
-        quizLevel: 0,
-        maxQuestions: 10,
-        storedQuestions: [],
-        question:null,
-        options:[],
-        idQuestion: 0,
-        btnDisabled: true,
-        userAnswer: null,
-        score: 0,
-        showWelcomeMsg: false,
-        quizEnd: false
+        this.initialState = {
+            levelName: ["debutant", "confirme", "expert"],
+            quizLevel: 0,
+            maxQuestions: 10,
+            storedQuestions: [],
+            question: null,
+            options: [],
+            idQuestion: 0,
+            btnDisabled: true,
+            userAnswer: null,
+            score: 0,
+            showWelcomeMsg: false,
+            quizEnd: false
+        }
+
+        this.state = this.initialState
+        this.storedDataRef = React.createRef()
+
     }
 
-    storedDataRef = React.createRef()
 
     loadQuestions = quizz => {
 
@@ -46,7 +52,7 @@ class Quiz extends Component{
         }
     }
 
-    showWelcomeMsg = pseudo => {
+    showToastMsg = pseudo => {
         if(!this.state.showWelcomeMsg){
 
             this.setState({
@@ -110,7 +116,7 @@ class Quiz extends Component{
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.storedQuestions !== prevState.storedQuestions) {
+        if((this.state.storedQuestions !== prevState.storedQuestions) && this.state.storedQuestions.length) {
 
             this.setState({
                 question: this.state.storedQuestions[this.state.idQuestion].question,
@@ -118,7 +124,7 @@ class Quiz extends Component{
             })
         }
 
-        if(this.state.idQuestion !== prevState.idQuestion){
+        if((this.state.idQuestion !== prevState.idQuestion) && this.state.storedQuestions.length){
             this.setState({
                 question: this.state.storedQuestions[this.state.idQuestion].question,
                 options: this.state.storedQuestions[this.state.idQuestion].options,
@@ -127,8 +133,8 @@ class Quiz extends Component{
             })
         }
 
-        if(this.props.userData.pseudo){
-           this.showWelcomeMsg(this.props.userData.pseudo)
+        if(this.props.userData.pseudo !== prevProps.userData.pseudo){
+           this.showToastMsg(this.props.userData.pseudo)
         }
     }
 
@@ -158,6 +164,11 @@ class Quiz extends Component{
         }
     }
 
+    loadLevelQuestions = param=>{
+        this.setState({...this.initialState, quizLevel: param})
+
+        this.loadQuestions(this.state.levelName[param])
+    }
     render() {
 
 
@@ -183,6 +194,7 @@ class Quiz extends Component{
                     maxQuestions = {this.state.maxQuestions}
                     quizLevel = {this.state.quizLevel}
                     percent = {this.state.percent}
+                    loadLevelQuestions = {this.loadLevelQuestions}
                 />
             )
                 :
