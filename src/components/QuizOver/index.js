@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import {GiTrophyCup} from "react-icons/gi";
+import {HiBadgeCheck} from "react-icons/hi";
 
 
 const QuizOver = React.forwardRef(
@@ -32,7 +34,10 @@ const QuizOver = React.forwardRef(
                         (
                             <>
 
-                                <p className="successMsg">Bravo, passez au niveau suivant!</p>
+                                <p className="successMsg">
+                                    <HiBadgeCheck size='50px'/>
+                                    Bravo, passez au niveau suivant!
+                                </p>
                                 <button
                                     className="btnResult success"
                                     onClick={()=>loadLevelQuestions(quizLevel)}
@@ -45,7 +50,10 @@ const QuizOver = React.forwardRef(
                         :
                         (
                              <>
-                                 <p className="successMsg">Bravo, vous etes un expert!</p>
+                                 <p className="successMsg">
+                                     <GiTrophyCup size='50px'/>
+                                     Bravo, vous etes un expert!
+                                 </p>
                                  <button
                                      className="btnResult gameOver"
                                      onClick={()=>loadLevelQuestions(0)}
@@ -58,7 +66,7 @@ const QuizOver = React.forwardRef(
                 }
                 </div>
                 <div className="percentage">
-                    <div className="progressPercent">reussite: {percent}%</div>
+                    <div className="progressPercent">réussite: {percent}%</div>
                     <div className="progressPercent">Note: {score}/{maxQuestions}</div>
                 </div>
             </>

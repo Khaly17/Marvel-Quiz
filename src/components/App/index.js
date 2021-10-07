@@ -8,11 +8,15 @@ import Login from "../Login";
 import Signup from "../Signup";
 import ErrorPage from "../ErrorPage";
 import ForgetPassword from "../ForgetPassword";
+import {IconContext} from "react-icons";
 import '../../App.css';
 
 function App() {
   return (
     <Router>
+
+        <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
+
        <Header/>
 
         <Switch>
@@ -25,6 +29,7 @@ function App() {
         </Switch>
 
         <Footer/>
+        </IconContext.Provider>
     </Router>
   );
 }
