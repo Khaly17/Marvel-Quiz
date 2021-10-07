@@ -8,7 +8,6 @@ const ProgressBar = ({idQuestion, maxQuestion}) => {
 
     const actualQuestion = (idQuestion + 1)
     const progressPercent = getWidth(maxQuestion, actualQuestion)
-    console.log(progressPercent)
     return(
        <>
            <div className="percentage">
