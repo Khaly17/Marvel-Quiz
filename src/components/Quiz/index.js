@@ -205,7 +205,10 @@ class Quiz extends Component{
 
                     <>
 
-                        <Levels/>
+                        <Levels
+                            levelNames={this.state.levelName}
+                            quizLevel={this.state.quizLevel}
+                        />
 
                         <ProgressBar
                             idQuestion = {this.state.idQuestion}
