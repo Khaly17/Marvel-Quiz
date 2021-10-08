@@ -31,18 +31,51 @@ const QuizOver = React.forwardRef(
 
         useEffect(()=>{
             setAsked(ref.current)
+
+            if(localStorage.getItem('marvelStorageDate')){
+                const date = localStorage.getItem('marvelStorageDate')
+                checkDataAge(date)
+            }
         },[ref])
+
+        const checkDataAge = date => {
+            const today = Date.now()
+            const timeDifference =  today - date
+
+            const daysDifference = timeDifference / (1000 * 3600 * 24)
+
+            if (daysDifference >= 15){
+                localStorage.clear()
+                localStorage.setItem('marvelStorageDate', Date.now())
+            }
+        }
 
         const showModal = id => {
             setOpenModal(true)
 
-            axios
-                .get(`${API_URL}${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
-                .then(response => {
-                    setCharacterInfos(response.data)
-                    setLoading(false)
-                })
-                .catch(error => console.log(error))
+            if(localStorage.getItem(id)){
+
+                setCharacterInfos(JSON.parse(localStorage.getItem(id)))
+                setLoading(false)
+
+            }else{
+
+                axios
+                    .get(`${API_URL}${id}?ts=1&apikey=${API_PUBLIC_KEY}&hash=${hash}`)
+                    .then(response => {
+                        console.log(response)
+
+                        setCharacterInfos(response.data)
+                        setLoading(false)
+
+                        localStorage.setItem(id, JSON.stringify(response.data))
+
+                        if(!localStorage.getItem('marvelStorageDate')){
+                            localStorage.setItem('marvelStorageDate', Date.now())
+                        }
+                    })
+                    .catch(error => console.log(error))
+            }
         }
 
         const hideModal = ()=>{
